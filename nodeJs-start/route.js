@@ -18,7 +18,7 @@ const requestRoute=(req,res)=>{
     if (req.url === '/message' && req.method==="POST"){
         const data=[];
         req.on('data',(chunk)=>{
-            data.push(chunk)
+            data.push(chunk);
             console.log(chunk);
         })
         return req.on('end',()=>{
