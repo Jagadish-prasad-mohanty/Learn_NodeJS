@@ -28,6 +28,7 @@ const requestRoute=(req,res)=>{
             fs.writeFile('message.txt',`This is your Message : ${message}`,(err)=>{
                 res.statusCode=302;
                 res.setHeader('Location','/');
+
                 return res.end();
             });
         })
@@ -40,6 +41,7 @@ const requestRoute=(req,res)=>{
     res.write('</html>');
     // console.log(req.headers, req.method,req.url);
     res.end()
+    
 
 
 }
