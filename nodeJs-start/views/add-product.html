@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+    <nav class="bg-purple-800 text-white py-3 flex items-center justify-between">
+        <h4 class="font-bold ml-4">RedEye</h4>
+        <ul class="flex space-x-3 mr-5">
+            <li><a href="/">
+
+                shop
+            </a>
+            </li>
+            <li>
+                <a href="/admin/add-product">
+
+                    add-product
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="w-full h-screen">
+
+        <form method="POST" action="/admin/add-product" class="my-40 mx-auto p-5 border-2 border-purple-800  w-1/2 text-center">
+            <input type="text" class="border-purple-800 border-2 px-2 outline-none rounded-lg bg-purple-400 mr=3" name="title" />
+            <button type="submit" class="border-2 border-white text-white px-2 rounded-xl bg-purple-800 hover:bg-white hover:text-purple-800 hover:border-purple-800">submit</button>
+        </form>
+    </main>
+</body>
+</html>
