@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <nav class="bg-purple-800 text-white py-3 flex items-center justify-between">
         <h4 class="font-bold ml-4">RedEye</h4>
-        <ul class="flex space-x-3 mr-5">
+        <ul class="flex space-x-3 mr-5 divide-x-10">
             
-                <li><a href="/">
+            <li class="hover:text-yellow-300 active:text-yellow-300 text-yellow-300"><a href="/">
+
                 shop
-                </a>
+            </a>
             </li>
-            <li>
+            <li class="hover:text-yellow-300 active:text-yellow-300 ">
                 <a href="/admin/add-product">
 
                     add-product
@@ -26,10 +27,16 @@
         </ul>
     </nav>
 
-    <main>
+    <main class="py-5 pl-10">
 
-        <h1>Products</h1>
+        <h1 class="shop-header text-2xl">Products</h1>
         <p>all products go here</p>
+
+        <!-- <div class="grid grid-cols-3">
+            <div>01</div>
+            <div>02</div>
+            <div>03</div>
+          </div> -->
     </main>
 </body>
 </html>
