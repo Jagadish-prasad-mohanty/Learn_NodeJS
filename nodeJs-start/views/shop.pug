@@ -6,6 +6,7 @@ html(lang="en")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title #{title}
         link(rel="stylesheet" href="/css/style.css")
+        link(rel="stylesheet" href="/css/shop.css")
     body 
         nav.nav
             h4.nav-header RedEye
@@ -17,14 +18,20 @@ html(lang="en")
                     a(href="/admin/add-product") add-product
 
 
-        main
-            h1 Products
+        main.shop
+            h1.shop-header Products
             p all products go here
-            if prods.length !==0
-                each product in prods 
-                    h3 #{product.title}
-            else 
-                h3 No Products
+            .cards
+                if prods.length !==0
+                    each product in prods 
+                        .card 
+                            .card-main
+                                h3.card-head #{product.title}
+                                p.card-price $#{product.price}
+                            img.card-image(src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" alt="card-image")
+                            p.card-desc This is a nice #{product.title}
+                else 
+                    h3 No Products
 
 
 

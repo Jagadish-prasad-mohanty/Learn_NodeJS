@@ -24,7 +24,7 @@ body,html{
 .nav-links{
     display: flex;
     gap: 0.8rem;
-    
+    cursor: pointer;
     list-style: none;
 }
 .nav-link a{
@@ -38,8 +38,5 @@ body,html{
     color: yellow;
 }
 
-.shop-header{
-    color: aqua;
-    font-size: large;
-}
+
 

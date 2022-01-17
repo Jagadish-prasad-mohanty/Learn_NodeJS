@@ -11,7 +11,7 @@ const products=[];
 //send request (add product)
 router.get('/add-product',(req,res,next)=>{
     console.log("A middleware");
-    res.sendFile(path.join(rootDir,'views','add-product.html'));
+    res.render('add-product');
     
     // next();
 }) 
@@ -19,7 +19,7 @@ router.get('/add-product',(req,res,next)=>{
 // post add product for post data( the product data )
 router.post('/add-product',(req,res,next)=>{
     console.log("[admin.js]",req.body);
-    products.push({'title':req.body.title});
+    products.push({'title':req.body.title,price:req.body.price});
 
     fs.writeFile('data.txt',req.body['title'],()=>{
 
