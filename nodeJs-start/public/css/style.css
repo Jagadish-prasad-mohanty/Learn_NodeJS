@@ -1,13 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body{
+body,html{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+
+
+.nav{
+    background: rgb(92, 0, 128);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.1rem 2rem;
+}
+.nav-header{
+    margin:0;
+    font-size: 1.2rem;
+    color: salmon;
+}
+
+.nav-links{
+    display: flex;
+    gap: 0.8rem;
+    
+    list-style: none;
+}
+.nav-link a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-link:hover a,
+.nav-link:active a,
+.nav-link.active a{
+    color: yellow;
 }
 
 .shop-header{
     color: aqua;
     font-size: large;
 }
+

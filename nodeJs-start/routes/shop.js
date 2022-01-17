@@ -9,7 +9,11 @@ const adminData=require('./admin');
 router.get('/',(req,res,next)=>{
     console.log("Another middleware");
     console.log("[shop.js]",adminData.products);
-    res.sendFile(path.join(rootDir,'views','shop.html'));
+    //normal send file
+    // res.sendFile(path.join(rootDir,'views','shop.html'));
+
+    // send file with pug
+    res.render('shop',{prods:adminData.products,title:'Shop'});
 })
 
 module.exports= router;

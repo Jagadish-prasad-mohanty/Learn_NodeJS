@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title}
+        link(rel="stylesheet" href="/css/style.css")
+    body 
+        nav.nav
+            h4.nav-header RedEye
+            ul.nav-links
+                li.nav-link.active
+                    a(href="/") shop
+
+                li.nav-link
+                    a(href="/admin/add-product") add-product
+
+
+        main
+            h1 Products
+            p all products go here
+            if prods.length !==0
+                each product in prods 
+                    h3 #{product.title}
+            else 
+                h3 No Products
+
+
+
+

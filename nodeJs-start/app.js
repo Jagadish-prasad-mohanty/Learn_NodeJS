@@ -9,7 +9,14 @@ const bodyParser=require('body-parser');
 const adminData  = require('./routes/admin');
 const shopRouter= require('./routes/shop');
 
-const app= express();
+//import root directory
+const rootDir=require('./util/path');
+
+const app= express()
+
+//setting of dynamic content (PUG)
+app.set('view engine', 'pug');
+app.set('views','views');
 
 app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname,'public')));
@@ -24,7 +31,7 @@ app.use('/admin',adminData.router);
 app.use(shopRouter);
 
 app.use('*',(req,res,next)=>{
-    res.status(404).send("<h1>Page not Found</h1>")
+    res.status(404).sendFile(path.join(rootDir,'views','Error404.html'));
 })
 
 // const server =http.createServer(app);
