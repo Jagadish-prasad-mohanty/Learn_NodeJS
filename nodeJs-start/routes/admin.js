@@ -11,7 +11,11 @@ const products=[];
 //send request (add product)
 router.get('/add-product',(req,res,next)=>{
     console.log("A middleware");
-    res.render('add-product');
+    //notmal page render
+    // res.sendFile(path.join(rootDir,'views','add-product.html'))
+
+    //pug dynamic page render
+    res.render('add-product',{title:'add-product',isAddProductPage:true});
     
     // next();
 }) 
