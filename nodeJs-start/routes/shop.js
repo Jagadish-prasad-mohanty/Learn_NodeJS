@@ -13,7 +13,7 @@ router.get('/',(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
     // send file with pug
-    res.render('shop',{prods:adminData.products,title:'Shop',isShopPage:true});
+    res.render('shop',{prods:adminData.products,title:'Shop',isShopPage:true,isAddProductPage:false});
 })
 
 module.exports= router;

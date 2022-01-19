@@ -1,0 +1,27 @@
+<%- include('includes/start.ejs') %>
+    <link rel="stylesheet" href="/css/shop.css"/>
+<%- include('includes/navigation.ejs')%>
+    <main class="shop">
+        <h1 class="shop-header" >Products</h1>
+        <p> all products go here</p>
+        <div class="cards">
+            <% if (prods.length !==0) { %>
+                <% for (let product of prods){ %>
+                    <div class="card">
+                        <div class="card-main">
+                            <h3 class="card-head"><%= product.title %></h3> 
+                            <p class="card-price"> <%= product.price %></p>
+                        </div>
+                        <img class="card-image" src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" alt="card-image"/>
+                        <p class="card-desc"> This is a nice <%= product.title %></p>
+                    </div>
+                    <% } %>
+
+            <% } else { %>
+                <h3>No Products</h3> 
+                <%}%>
+
+            </div>
+        </main>
+
+<%- include('includes/end.ejs')%>

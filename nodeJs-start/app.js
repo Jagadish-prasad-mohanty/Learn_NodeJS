@@ -43,7 +43,7 @@ app.use(shopRouter);
 
 app.use('*',(req,res,next)=>{
     // res.status(404).sendFile(path.join(rootDir,'views','Error404.html'));
-    res.render('Error404',{title:'Page not Found'})
+    res.render('Error404',{title:'Page not Found',isShopPage:true,isAddProductPage:false})
 })
 
 // const server =http.createServer(app);
