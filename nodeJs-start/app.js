@@ -6,17 +6,17 @@ const path= require('path')
 const express= require('express');
 const bodyParser=require('body-parser');
 
-const adminData  = require('./routes/admin');
+const adminRouter  = require('./routes/admin');
 const shopRouter= require('./routes/shop');
 
-const expHDBars= require('express-handlebars');
+// const expHDBars= require('express-handlebars');
 
-//import root directory
-const rootDir=require('./util/path');
+//import errorControllers
+const errorControllers=require('./controllers/error');
 
 const app= express()
 
-//setting of dynamic content (PUG)
+// setting of dynamic content (PUG)
 // app.set('view engine', 'pug');
 // app.set('views','views');
 
@@ -37,14 +37,11 @@ app.use('/',(req,res,next)=>{
     next();
 })
 
-app.use('/admin',adminData.router);
+app.use('/admin',adminRouter);
 
 app.use(shopRouter);
 
-app.use('*',(req,res,next)=>{
-    // res.status(404).sendFile(path.join(rootDir,'views','Error404.html'));
-    res.render('Error404',{title:'Page not Found',isShopPage:true,isAddProductPage:false})
-})
+app.use('*',errorControllers.getErro404)
 
 // const server =http.createServer(app);
 
