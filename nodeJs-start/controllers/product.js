@@ -12,7 +12,7 @@ exports.getAddProduct=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','add-product.html'))
 
     //pug dynamic page render
-    res.render('add-product',{title:'add-product',isAddProductPage:true,isShopPage:false});
+    res.render('admin/add-product',{title:'add-product',path:'/admin/add-product'});
     
     // next();
 }
@@ -23,11 +23,11 @@ exports.postAddProduct=(req,res,next)=>{
     // products.push({'title':req.body.title,price:req.body.price});
     const product=new Product(req.body.title,req.body.price);
     product.save();
+    res.redirect('/');
+    // fs.writeFile('data.txt',JSON.stringify({title:req.body['title'],price:req.body['price']}),()=>{
 
-    fs.writeFile('data.txt',req.body['title'],()=>{
-
-        res.redirect('/');
-    })
+    //     
+    // })
 }
 
 exports.getProducts=(req,res,next)=>{
@@ -36,8 +36,36 @@ exports.getProducts=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
     //fetch all Products
-    const products=Product.fetchProducts();
-    // send file with pug
-    res.render('shop',{prods:products,title:'Shop',isShopPage:true,isAddProductPage:false});
+    Product.fetchProducts((products)=>{
+
+        // send file with pug
+        console.log("product -> getProducts-> products",products);
+        res.render('shop/product-list',{prods:products,title:'Shop',path:'/'});
+    });
 }
+exports.getCartProducts=(req,res,next)=>{
+    
+    //normal send file
+    // res.sendFile(path.join(rootDir,'views','shop.html'));
+
+    //fetch all Products
+    
+
+        // send file with pug
+        res.render('shop/cart',{title:'Cart',path:'/cart'});
+  
+}
+exports.getCheckOut=(req,res,next)=>{
+    
+    //normal send file
+    // res.sendFile(path.join(rootDir,'views','shop.html'));
+
+    //fetch all Products
+    
+
+        // send file with pug
+    res.render('shop/check-out',{title:'CheckOut',path:'/check-out'});
+    
+}
+
 
