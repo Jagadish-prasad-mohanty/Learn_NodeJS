@@ -5,27 +5,27 @@
         <ul class="nav-links ">
             <li class=" <%=  path==='/'?'active nav-link':'nav-link' %>"><a href="/">
 
-                shop
+                Shop
+            </a>
+            <li class=" <%=  path==='/products'?'active nav-link':'nav-link' %>"><a href="/products">
+
+                Products
             </a>
             </li>
             <li class="<%= path==='/admin/add-product'?'active nav-link':'nav-link' %>">
                 <a href="/admin/add-product">
-                    add-product
+                    Add Product
                 </a>
             </li>
-            <li class="<%= path==='/shop/cart'?'active nav-link':'nav-link' %>">
+            <li class="<%= path==='/cart'?'active nav-link':'nav-link' %>">
                 <a href="/cart">
-                    cart
+                    Cart
                 </a>
             </li>
-            <li class="<%= path==='/shop/check-out'?'active nav-link':'nav-link' %>">
-                <a href="/check-out">
-                    check-out
-                </a>
-            </li>
+          
             <li class="<%= path==='/admin/products'?'active nav-link':'nav-link' %>">
                 <a href="/admin/products">
-                    products
+                    Products
                 </a>
             </li>
             

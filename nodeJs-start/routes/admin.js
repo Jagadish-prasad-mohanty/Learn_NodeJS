@@ -5,14 +5,18 @@ const path=require('path');
 const rootDir= require('../util/path');
 
 //get productControllers
-const productControllers=require('../controllers/product');
+const adminControllers=require('../controllers/admin');
 
 //send request (add product)
-router.get('/add-product',productControllers.getAddProduct);
+router.get('/add-product',adminControllers.getAddProduct);
 
 // post add product for post data( the product data )
-router.post('/add-product',productControllers.postAddProduct);
-router.get('/products',productControllers.getProducts);
+router.post('/add-product',adminControllers.postAddProduct);
+
+router.get('/edit-product',adminControllers.getEditProduct);
+
+//admin/products
+router.get('/products',adminControllers.getProducts);
 
 // router.get(/)
 

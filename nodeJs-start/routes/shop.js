@@ -7,9 +7,10 @@ const path=require('path');
 // const adminData=require('./admin');
 
 // import product controller
-const productControllers=require('../controllers/product');
-router.get('/',productControllers.getProducts);
-router.get('/cart',productControllers.getCartProducts);
-router.get('/check-out',productControllers.getCheckOut);
+const shopControllers=require('../controllers/shop');
+router.get('/',shopControllers.getIndex);
+router.get('/products',shopControllers.getProducts);
+router.get('/cart',shopControllers.getCartProducts);
+router.get('/check-out',shopControllers.getCheckOut);
 
 module.exports= router;
