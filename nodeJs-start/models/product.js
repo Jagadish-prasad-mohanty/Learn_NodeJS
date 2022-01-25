@@ -24,7 +24,10 @@ module.exports = class Product {
     this.description = description;
   }
   save() {
+    
     getProductHelperFunction((products) => {
+      this.id=Math.random().toString();
+
       products.push(this); // this = object to push
       fs.writeFile(filePath, JSON.stringify(products), (err) => {
         // just make you object to string
@@ -35,5 +38,12 @@ module.exports = class Product {
   }
   static fetchProducts(callback) {
     getProductHelperFunction(callback);
+  }
+
+  static fetchProductById (productId,callback) {
+    getProductHelperFunction((products)=>{
+      const product=products.find(item=>item.id===productId);
+      callback(product);
+    })
   }
 };

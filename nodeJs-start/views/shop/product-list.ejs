@@ -15,9 +15,14 @@
                         <img class="card-image" src="<%= product.imgUrl %>" alt="card-image"/>
                         <p class="card-desc"> <%= product.description %></p>
                         <div class="card-add-to-cart">
-                            <form action="add-to-cart">
-                                <button class="button"> Add to Cart</button>
-                            </form>
+                            
+                            <diV class="card-controls">
+
+                                <button class="button"><a href="/products/<%= product.id %>">Details</a></button>
+                                <form action="/add-to-cart" method="POST">
+                                    <button class="button" type="submit">Add to Cart</button>
+                                </form>
+                            </diV>
                         </div>
                     </div>
                     <% } %>

@@ -56,6 +56,13 @@ exports.getProducts=(req,res,next)=>{
         res.render('shop/product-list',{prods:products,title:'Products',path:'/products'});
     });
 }
+exports.getProductDetails=(req,res,next)=>{
+    const productId=req.params.productId;
+    Product.fetchProductById(productId,(product)=>{
+        res.render(`shop/product-details`,{product:product,title:'Product Details',path:`/products`})
+    });
+  
+}
 exports.getCartProducts=(req,res,next)=>{
     
     //normal send file

@@ -10,6 +10,7 @@ const path=require('path');
 const shopControllers=require('../controllers/shop');
 router.get('/',shopControllers.getIndex);
 router.get('/products',shopControllers.getProducts);
+router.get('/products/:productId',shopControllers.getProductDetails);
 router.get('/cart',shopControllers.getCartProducts);
 router.get('/check-out',shopControllers.getCheckOut);
 
