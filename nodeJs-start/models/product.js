@@ -3,6 +3,7 @@ const fs = require("fs");
 const rtPath = require("../util/path");
 const path = require("path");
 const filePath = path.join(rtPath, "data", "products.json"); //location of you file
+const cartFilePath = path.join(rtPath, "data", "cart.json"); //location of you file
 const getProductHelperFunction = (callback) => {
   fs.readFile(filePath, (err, fileContent) => {
     let products = [];
@@ -45,5 +46,41 @@ module.exports = class Product {
       const product=products.find(item=>item.id===productId);
       callback(product);
     })
+  }
+  static productAddToCart (productId){
+    const cart=[];
+    getProductHelperFunction(products=>{
+      const product= products.find(item=>item.id===productId);
+      
+
+      fs.readFile(cartFilePath,(err,fileContent)=>{
+        if (!err){
+          cart.push(...JSON.parse(fileContent));
+        }
+        const inCart= cart.findIndex(item=>item.id===productId);
+        if (inCart ===-1){
+
+          cart.push(product);
+        }
+        fs.writeFile(cartFilePath,JSON.stringify(cart),(err)=>{
+          console.log(err);
+        })
+        
+      })
+    })
+    
+  }
+  static fetchCart (callback){
+    const cart=[];
+    
+      fs.readFile(cartFilePath,(err,fileContent)=>{
+        if (!err){
+          cart.push(...JSON.parse(fileContent));
+        }
+        callback(cart);
+        
+      })
+   
+    
   }
 };

@@ -69,16 +69,17 @@ exports.getCartProducts=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
     //fetch all Products
-    
 
-        // send file with pug
-        res.render('shop/cart',{title:'Cart',path:'/cart'});
-  
+        Product.fetchCart(cart=>{  
+            res.render('shop/cart',{title:'Cart',cart:cart,path:'/cart'});
+        })
+
 }
 exports.postCartProducts=(req,res,next)=>{
     const productId=req.body.productId;
     console.log(" shop.js -> productId",productId); 
-    res.redirect('/');
+    Product.productAddToCart(productId);
+    res.redirect('/cart');
 }
 exports.getCheckOut=(req,res,next)=>{
     

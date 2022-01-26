@@ -2,7 +2,27 @@
     <link rel="stylesheet" href="/css/shop.css"/>
 <%- include('../includes/navigation.ejs')%>
     <main class="shop">
-        <h1>Hi From Cart</h1>
+        <h1 class="shop-header" >Cart</h1>
+        <p> all products in cart go here</p>
+        <div class="cards">
+            <% if (cart.length !==0) { %>
+                <% for (let product of cart){ %>
+                    <div class="card">
+                        <div class="card-main">
+                            <h3 class="card-head"><%= product.title %></h3> 
+                            <p class="card-price"> /- <%= product.price %></p>
+                        </div>
+                        <img class="card-image" src="<%= product.imgUrl %>" alt="card-image"/>
+                        <p class="card-desc"> <%= product.description %></p>
+                       
+                    </div>
+                    <% } %>
+
+            <% } else { %>
+                <h3>No Products in Cart</h3> 
+                <%}%>
+
+            </div>
         </main>
 
 <%- include('../includes/end.ejs')%>
