@@ -75,6 +75,11 @@ exports.getCartProducts=(req,res,next)=>{
         res.render('shop/cart',{title:'Cart',path:'/cart'});
   
 }
+exports.postCartProducts=(req,res,next)=>{
+    const productId=req.body.productId;
+    console.log(" shop.js -> productId",productId); 
+    res.redirect('/');
+}
 exports.getCheckOut=(req,res,next)=>{
     
     //normal send file

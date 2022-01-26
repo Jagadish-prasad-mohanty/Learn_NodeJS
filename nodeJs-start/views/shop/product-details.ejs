@@ -14,8 +14,9 @@
                             
                             <diV class="card-controls">
 
-                                <form action="/add-to-cart" method="POST">
+                                <form action="/cart" method="POST">
                                     <button class="button" type="submit">Add to Cart</button>
+                                    <input type="hidden" name="productId" value="<%= product.id %>"/>
                                 </form>
                             </diV>
                         </div>
