@@ -7,14 +7,15 @@ const cartFilePath = path.join(rtPath, "data", "cart.json"); //location of you f
 const getProductHelperFunction = (callback) => {
   fs.readFile(filePath, (err, fileContent) => {
     let products = [];
-    console.log("product.js -> err3 : ", err);
+    console.log("product.js[models] -> err3 : ", err);
     if (!err) {
       // if no Error you can push fileContent
       products.push(...JSON.parse(fileContent));
     }
+
     callback(products);
   });
-  console.log("product.js ->products : ", products);
+  console.log("product.js[models] ->products : ", products);
 };
 //product class to manage data
 module.exports = class Product {
@@ -47,40 +48,60 @@ module.exports = class Product {
       callback(product);
     })
   }
-  static productAddToCart (productId){
-    const cart=[];
-    getProductHelperFunction(products=>{
-      const product= products.find(item=>item.id===productId);
+  static productAddToCart (productId,productPrice){
+    let cart={
+      cart:[],
+      totalPrice:0
+    };
       
-
       fs.readFile(cartFilePath,(err,fileContent)=>{
         if (!err){
-          cart.push(...JSON.parse(fileContent));
+          cart=JSON.parse(fileContent);
+          console.log("product.js[models] -> cartContent",cart);
+          
         }
-        const inCart= cart.findIndex(item=>item.id===productId);
-        if (inCart ===-1){
+        
+        
+        const product= cart.cart.find(item=>item.id===productId);
+        let updatedProduct;
+        if (!product){
 
-          cart.push(product);
+          updatedProduct={
+            id:productId,
+            count:1
+          }; 
+          cart.cart=[...cart.cart,updatedProduct]
         }
+        else{
+          updatedProduct={...product,count:product.count+1};
+          const prodIndex=cart.cart.findIndex(item=>item.id===updatedProduct.id);
+          cart.cart[prodIndex]=updatedProduct;
+        }
+        cart.totalPrice+=+productPrice;
+        console.log("product.js[models] -> cart",cart);
         fs.writeFile(cartFilePath,JSON.stringify(cart),(err)=>{
           console.log(err);
         })
         
       })
-    })
+  
     
   }
   static fetchCart (callback){
-    const cart=[];
+    let cart={};
     
       fs.readFile(cartFilePath,(err,fileContent)=>{
-        if (!err){
-          cart.push(...JSON.parse(fileContent));
+        if (!err && fileContent){
+          cart=JSON.parse(fileContent)
+        }
+        else{
+          cart={
+            cart:[],
+            totalPrice:0
+          };
         }
         callback(cart);
         
-      })
-   
-    
+      })  
   }
 };

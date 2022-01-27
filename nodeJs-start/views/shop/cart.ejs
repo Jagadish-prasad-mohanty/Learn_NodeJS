@@ -5,8 +5,8 @@
         <h1 class="shop-header" >Cart</h1>
         <p> all products in cart go here</p>
         <div class="cards">
-            <% if (cart.length !==0) { %>
-                <% for (let product of cart){ %>
+            <% if (cart.cart.length !==0) { %>
+                <% for (let product of cart.cart){ %>
                     <div class="card">
                         <div class="card-main">
                             <h3 class="card-head"><%= product.title %></h3> 
@@ -14,7 +14,7 @@
                         </div>
                         <img class="card-image" src="<%= product.imgUrl %>" alt="card-image"/>
                         <p class="card-desc"> <%= product.description %></p>
-                       
+                        <p>Quantity : <%= product.count%></p>
                     </div>
                     <% } %>
 
