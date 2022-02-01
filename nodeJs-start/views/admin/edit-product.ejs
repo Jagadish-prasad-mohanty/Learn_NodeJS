@@ -4,7 +4,7 @@
 <%- include('../includes/navigation.ejs') %>
 
     <main class="main">
-        <form class="form" method="POST" action="/admin/add-product">
+        <form class="form" method="POST" action="/admin/edit-product/:productId">
             <div class="input">
                 <label for="title"> Title</label>
                 <input id="title" type="text" name="title" value="<%= product.title%>"/>
@@ -23,6 +23,7 @@
             </div>
                 
             <button class="button" type="submit">submit</button> 
+            <input type="hidden" name="id" value="<%= product.id %>"/>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>

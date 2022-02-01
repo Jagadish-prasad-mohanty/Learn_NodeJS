@@ -19,18 +19,28 @@ const getProductHelperFunction = (callback) => {
 };
 //product class to manage data
 module.exports = class Product {
-  constructor(title, price, imgUrl, description) {
+  constructor(title, price, imgUrl, description,id) {
     this.title = title;
     this.price = price;
     this.imgUrl = imgUrl;
     this.description = description;
+    this.id=id;
   }
   save() {
     
     getProductHelperFunction((products) => {
-      this.id=Math.random().toString();
+      console.log("product -save -> this",this);
+      if(!this.id){
 
-      products.push(this); // this = object to push
+        this.id=Math.random().toString();
+  
+        products.push(this); // this = object to push
+      }else{
+        const productIndex=products.findIndex(item=>item.id===this.id);
+        if(productIndex){
+          products[productIndex]=this
+        }
+      }
       fs.writeFile(filePath, JSON.stringify(products), (err) => {
         // just make you object to string
         // and you are good to go

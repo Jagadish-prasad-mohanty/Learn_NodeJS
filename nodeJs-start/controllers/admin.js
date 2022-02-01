@@ -52,21 +52,16 @@ exports.getEditProduct=(req,res,next)=>{
     
     // next();
 }
-exports.getPostProduct=(req,res,next)=>{
-    console.log("A Admin Edit Product middleware");
-    const {productId}=req.params;
-    //notmal page render
-    // res.sendFile(path.join(rootDir,'views','add-product.html'))
-
-    //pug dynamic page render
-    Product.fetchProducts(products=>{
-        const productIndex=products.findIndex(item=>item.id===productId);
-      
-        if(productIndex){
-            res.render('admin/edit-product',{product:products[productIndex],title:'Edit Product',path:'/admin/products'});
-        }
-
-    })
+exports.postEditProduct=(req,res,next)=>{
+    const title=req.body.title;
+    const price=req.body.price;
+    const imgUrl=req.body.imgUrl;
+    const description=req.body.description;
+    const productId=req.body.id;
+    
+    const product=new Product(title,price,imgUrl,description,productId);
+    product.save();
+    res.redirect('/');
     
     // next();
 }
