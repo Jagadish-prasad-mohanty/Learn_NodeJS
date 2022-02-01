@@ -16,17 +16,6 @@ exports.getAddProduct=(req,res,next)=>{
     
     // next();
 }
-exports.getEditProduct=(req,res,next)=>{
-    console.log("A Admin Edit Product middleware");
-    //notmal page render
-    // res.sendFile(path.join(rootDir,'views','add-product.html'))
-
-    //pug dynamic page render
-    res.render('admin/edit-product',{title:'Edit Product',path:'/admin/edit-product'});
-    
-    // next();
-}
-
 exports.postAddProduct=(req,res,next)=>{
     console.log("[admin.js]",req.body);
     //push object to product array
@@ -44,6 +33,45 @@ exports.postAddProduct=(req,res,next)=>{
     //     
     // })
 }
+
+exports.getEditProduct=(req,res,next)=>{
+    console.log("A Admin Edit Product middleware");
+    const {productId}=req.params;
+    //notmal page render
+    // res.sendFile(path.join(rootDir,'views','add-product.html'))
+
+    //pug dynamic page render
+    Product.fetchProducts(products=>{
+        const productIndex=products.findIndex(item=>item.id===productId);
+      
+        if(productIndex){
+            res.render('admin/edit-product',{product:products[productIndex],title:'Edit Product',path:'/admin/products'});
+        }
+
+    })
+    
+    // next();
+}
+exports.getPostProduct=(req,res,next)=>{
+    console.log("A Admin Edit Product middleware");
+    const {productId}=req.params;
+    //notmal page render
+    // res.sendFile(path.join(rootDir,'views','add-product.html'))
+
+    //pug dynamic page render
+    Product.fetchProducts(products=>{
+        const productIndex=products.findIndex(item=>item.id===productId);
+      
+        if(productIndex){
+            res.render('admin/edit-product',{product:products[productIndex],title:'Edit Product',path:'/admin/products'});
+        }
+
+    })
+    
+    // next();
+}
+
+
 
 exports.getProducts=(req,res,next)=>{
     

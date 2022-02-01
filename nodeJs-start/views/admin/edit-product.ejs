@@ -7,19 +7,19 @@
         <form class="form" method="POST" action="/admin/add-product">
             <div class="input">
                 <label for="title"> Title</label>
-                <input id="title" type="text" name="title"/>
+                <input id="title" type="text" name="title" value="<%= product.title%>"/>
             </div>
             <div class="input">
                 <label for="price"> Price</label>
-                <input id="price" type="number" name="price" step="0.01"/>
+                <input id="price" type="number" name="price" step="0.01" value="<%= product.price%>"/>
             </div>
             <div class="input">
                 <label for="imgUrl"> ImgURL</label>
-                <input id="imgUrl" type="text" name="imgUrl"/>
+                <input id="imgUrl" type="text" name="imgUrl" value="<%= product.imgUrl%>"/>
             </div>
             <div class="input">
                 <label for="description"> Description</label>
-                <textarea name="description" id="description" cols="21" rows="5"></textarea>
+                <textarea name="description" id="description" cols="21" rows="5" ><%= product.description%></textarea>
             </div>
                 
             <button class="button" type="submit">submit</button> 

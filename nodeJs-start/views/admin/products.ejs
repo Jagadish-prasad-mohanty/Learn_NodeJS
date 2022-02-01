@@ -16,7 +16,7 @@
                         <p class="card-desc"> <%= product.description %></p>
                         <diV class="card-controls">
 
-                            <button class="button"><a href="/admin/edit-product">Edit</a></button>
+                            <button class="button"><a href="/admin/edit-product/<%= product.id %>">Edit</a></button>
                             <form action="/admin/delete-product" method="POST">
                                 <button class="button" type="submit">Delete</button>
                             </form>
