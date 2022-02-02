@@ -17,7 +17,7 @@
                         <diV class="card-controls">
 
                             <button class="button"><a href="/admin/edit-product/<%= product.id %>">Edit</a></button>
-                            <form action="/admin/delete-product" method="POST">
+                            <form action="/admin/delete-product/<%= product.id %>" method="POST">
                                 <button class="button" type="submit">Delete</button>
                             </form>
                         </diV>

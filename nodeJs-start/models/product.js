@@ -35,19 +35,53 @@ module.exports = class Product {
         this.id=Math.random().toString();
   
         products.push(this); // this = object to push
+        fs.writeFile(filePath, JSON.stringify(products), (err) => {
+          // just make you object to string
+          // and you are good to go
+          console.log("product.js -> err2 : ", err);
+        });
       }else{
         const productIndex=products.findIndex(item=>item.id===this.id);
         if(productIndex){
-          products[productIndex]=this
+          const updatedProducts=[...products]
+          updatedProducts[productIndex]=this;
+          fs.writeFile(filePath, JSON.stringify(updatedProducts), (err) => {
+            // just make you object to string
+            // and you are good to go
+            console.log("product.js -> err2 : ", err);
+          });
         }
       }
-      fs.writeFile(filePath, JSON.stringify(products), (err) => {
-        // just make you object to string
-        // and you are good to go
-        console.log("product.js -> err2 : ", err);
-      });
+      
     });
   }
+  static remove(productId){
+    getProductHelperFunction(products=>{
+      const updatedProducts=products.filter(item=>item.id!==productId);
+      let priceOfRemoveProductFromCart=+products.find(item=>item.id===productId).price;
+      fs.writeFile(filePath,JSON.stringify(updatedProducts),err=>{
+        console.log("model ->product.js -> 64 :",err);
+        if (!err){
+          this.fetchCart(cart=>{
+            let countOfRemoveProductFromCart;
+           
+            const updatedCart={...cart};
+            updatedCart.cart= cart.cart.filter(item=>{
+              countOfRemoveProductFromCart=+item.count
+              return item.id!==productId
+            });
+            
+            updatedCart.totalPrice-=priceOfRemoveProductFromCart*countOfRemoveProductFromCart;
+
+            fs.writeFile(cartFilePath,JSON.stringify(updatedCart),err=>{
+              console.log("models ->product.js -> err -> 79 :",err);
+            })
+          })
+        }
+      })
+    })
+  }
+
   static fetchProducts(callback) {
     getProductHelperFunction(callback);
   }
@@ -58,6 +92,8 @@ module.exports = class Product {
       callback(product);
     })
   }
+
+  //cart
   static productAddToCart (productId,productPrice){
     let cart={
       cart:[],

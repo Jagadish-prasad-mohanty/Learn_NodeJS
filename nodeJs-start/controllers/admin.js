@@ -41,12 +41,11 @@ exports.getEditProduct=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','add-product.html'))
 
     //pug dynamic page render
-    Product.fetchProducts(products=>{
-        const productIndex=products.findIndex(item=>item.id===productId);
+    Product.fetchProductById(productId,product=>{
       
-        if(productIndex){
-            res.render('admin/edit-product',{product:products[productIndex],title:'Edit Product',path:'/admin/products'});
-        }
+        
+        res.render('admin/edit-product',{product:product,title:'Edit Product',path:'/admin/products'});
+        
 
     })
     
@@ -61,11 +60,16 @@ exports.postEditProduct=(req,res,next)=>{
     
     const product=new Product(title,price,imgUrl,description,productId);
     product.save();
-    res.redirect('/');
+    res.redirect('/admin/products');
     
     // next();
 }
 
+exports.postDeleteProduct= (req,res,next)=>{
+    const productId=req.params.productId;
+    Product.remove(productId);
+    res.redirect("/admin/products");
+}
 
 
 exports.getProducts=(req,res,next)=>{
