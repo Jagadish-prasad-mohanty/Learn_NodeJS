@@ -14,7 +14,14 @@
                         </div>
                         <img class="card-image" src="<%= product.imgUrl %>" alt="card-image"/>
                         <p class="card-desc"> <%= product.description %></p>
-                        <p>Quantity : <%= product.count%></p>
+                        
+
+                        <diV class="card-controls">
+                            <p>Quantity : <%= product.count%></p>
+                            <form action="/delete-cart-product/<%= product.id %>" method="POST">
+                                <button class="button" type="submit">Delete</button>
+                            </form>
+                        </diV>
                     </div>
                     <% } %>
 

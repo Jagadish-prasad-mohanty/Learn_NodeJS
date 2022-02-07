@@ -133,6 +133,42 @@ module.exports = class Product {
   
     
   }
+  static deleteCartProduct (productId){
+    let cart={
+      cart:[],
+      totalPrice:0
+    }
+    fs.readFile(cartFilePath,(err,fileContent)=>{
+      if (!err){
+        cart=JSON.parse(fileContent);
+      }
+      let updatedPrice=cart.totalPrice;
+      let priceOfProductToDelete=0;
+      let countOfProductToDelete=0;
+      cart.cart.forEach(item=>{
+        if (item.id===productId){
+          countOfProductToDelete=+item.count;
+        }
+      })
+      this.fetchProductById(productId,product=>{
+        console.log("product -> 154 : ",product);
+         priceOfProductToDelete=product.price;
+         updatedPrice-=priceOfProductToDelete*countOfProductToDelete;
+         const updatedCart=cart.cart.filter(item=>item.id!==productId);
+         cart={
+           ...cart,
+           cart:updatedCart,
+           totalPrice:updatedPrice
+         }
+   
+         fs.writeFile(cartFilePath,JSON.stringify(cart),err=>{
+           console.log("models -> product.js -> err -> 165 : ",err);
+         })
+      })
+      // console.log("updatedPrice 157 : ",updatedPrice,priceOfProductToDelete,countOfProductToDelete);
+      
+    });
+  }
   static fetchCart (callback){
     let cart={};
     
