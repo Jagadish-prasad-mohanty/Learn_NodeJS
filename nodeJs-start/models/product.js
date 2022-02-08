@@ -55,6 +55,23 @@ module.exports = class Product {
       
     });
   }
+  static deleteCartProduct (productId,price){
+    this.fetchCart(cart=>{
+      let countOfRemoveProductFromCart=0;
+     
+      const updatedCart={...cart};
+      updatedCart.cart= cart.cart.filter(item=>{
+        countOfRemoveProductFromCart=+item.count
+        return item.id!==productId
+      });
+      
+      updatedCart.totalPrice-=price*countOfRemoveProductFromCart;
+
+      fs.writeFile(cartFilePath,JSON.stringify(updatedCart),err=>{
+        console.log("models ->product.js -> err -> 136 :",err);
+      })
+    })
+  }
   static remove(productId){
     getProductHelperFunction(products=>{
       const updatedProducts=products.filter(item=>item.id!==productId);
@@ -120,23 +137,7 @@ module.exports = class Product {
   
     
   }
-  static deleteCartProduct (productId,price){
-    this.fetchCart(cart=>{
-      let countOfRemoveProductFromCart=0;
-     
-      const updatedCart={...cart};
-      updatedCart.cart= cart.cart.filter(item=>{
-        countOfRemoveProductFromCart=+item.count
-        return item.id!==productId
-      });
-      
-      updatedCart.totalPrice-=price*countOfRemoveProductFromCart;
-
-      fs.writeFile(cartFilePath,JSON.stringify(updatedCart),err=>{
-        console.log("models ->product.js -> err -> 79 :",err);
-      })
-    })
-  }
+  
   static fetchCart (callback){
     let cart={};
     
