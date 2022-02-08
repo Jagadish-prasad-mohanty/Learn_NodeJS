@@ -62,21 +62,8 @@ module.exports = class Product {
       fs.writeFile(filePath,JSON.stringify(updatedProducts),err=>{
         console.log("model ->product.js -> 64 :",err);
         if (!err){
-          this.fetchCart(cart=>{
-            let countOfRemoveProductFromCart;
-           
-            const updatedCart={...cart};
-            updatedCart.cart= cart.cart.filter(item=>{
-              countOfRemoveProductFromCart=+item.count
-              return item.id!==productId
-            });
-            
-            updatedCart.totalPrice-=priceOfRemoveProductFromCart*countOfRemoveProductFromCart;
-
-            fs.writeFile(cartFilePath,JSON.stringify(updatedCart),err=>{
-              console.log("models ->product.js -> err -> 79 :",err);
-            })
-          })
+          this.deleteCartProduct(productId,priceOfRemoveProductFromCart);
+       
         }
       })
     })
@@ -133,41 +120,22 @@ module.exports = class Product {
   
     
   }
-  static deleteCartProduct (productId){
-    let cart={
-      cart:[],
-      totalPrice:0
-    }
-    fs.readFile(cartFilePath,(err,fileContent)=>{
-      if (!err){
-        cart=JSON.parse(fileContent);
-      }
-      let updatedPrice=cart.totalPrice;
-      let priceOfProductToDelete=0;
-      let countOfProductToDelete=0;
-      cart.cart.forEach(item=>{
-        if (item.id===productId){
-          countOfProductToDelete=+item.count;
-        }
-      })
-      this.fetchProductById(productId,product=>{
-        console.log("product -> 154 : ",product);
-         priceOfProductToDelete=product.price;
-         updatedPrice-=priceOfProductToDelete*countOfProductToDelete;
-         const updatedCart=cart.cart.filter(item=>item.id!==productId);
-         cart={
-           ...cart,
-           cart:updatedCart,
-           totalPrice:updatedPrice
-         }
-   
-         fs.writeFile(cartFilePath,JSON.stringify(cart),err=>{
-           console.log("models -> product.js -> err -> 165 : ",err);
-         })
-      })
-      // console.log("updatedPrice 157 : ",updatedPrice,priceOfProductToDelete,countOfProductToDelete);
+  static deleteCartProduct (productId,price){
+    this.fetchCart(cart=>{
+      let countOfRemoveProductFromCart=0;
+     
+      const updatedCart={...cart};
+      updatedCart.cart= cart.cart.filter(item=>{
+        countOfRemoveProductFromCart=+item.count
+        return item.id!==productId
+      });
       
-    });
+      updatedCart.totalPrice-=price*countOfRemoveProductFromCart;
+
+      fs.writeFile(cartFilePath,JSON.stringify(updatedCart),err=>{
+        console.log("models ->product.js -> err -> 79 :",err);
+      })
+    })
   }
   static fetchCart (callback){
     let cart={};

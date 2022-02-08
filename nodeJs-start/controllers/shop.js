@@ -101,8 +101,11 @@ exports.postCartProducts=(req,res,next)=>{
 exports.postDeleteCartProduct=(req,res,next)=>{
     const productId=req.params.productId;
     console.log(" shop.js[controlers] -> productId",productId); 
-    Product.deleteCartProduct(productId);
-    res.redirect('/cart');
+    Product.fetchProductById(productId,product=>{
+        Product.deleteCartProduct(productId,product.price); 
+        res.redirect('/cart');
+    })
+    
 }
 exports.getCheckOut=(req,res,next)=>{
     
