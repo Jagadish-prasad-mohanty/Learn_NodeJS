@@ -26,8 +26,12 @@ exports.postAddProduct=(req,res,next)=>{
     const imgUrl=req.body.imgUrl;
     const description=req.body.description;
     const product=new Product(title,price,imgUrl,description);
-    product.save();
-    res.redirect('/');
+    product.save().then(data=>{
+        console.log("controllers/admin.js-data -> 29 : ",data);
+        res.redirect('/');
+    })
+    .catch(err=>{console.log("controllers/admin.js-err -> 30 : ",err)});
+    
     // fs.writeFile('data.txt',JSON.stringify({title:req.body['title'],price:req.body['price']}),()=>{
 
     //     
@@ -67,8 +71,9 @@ exports.postEditProduct=(req,res,next)=>{
 
 exports.postDeleteProduct= (req,res,next)=>{
     const productId=req.params.productId;
-    Product.remove(productId);
-    res.redirect("/admin/products");
+    Product.remove(productId).then(()=>{
+        res.redirect("/admin/products");
+    }).catch(err=>console.log(err));
 }
 
 
@@ -78,10 +83,25 @@ exports.getProducts=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
     //fetch all Products
-    Product.fetchProducts((products)=>{
+    
+    const products=[];
+    Product.fetchProducts()
+    .then(data=>{
+        const allProducts=data[0];
+        allProducts.forEach(product=>{
+            const {title,price,product_id,description,inputURL}=product;
+            const prod={
+                price:price,
+                title:title,
+                description:description,
+                id:product_id,
+                imgUrl:inputURL
+            }
+            products.push(prod);
+        })
 
-        // send file with pug
         console.log("product -> getProducts-> products",products);
         res.render('admin/products',{prods:products,title:'Admin Products',path:'/admin/products'});
-    });
+    })
+    .catch(err=>console.log(err));
 }

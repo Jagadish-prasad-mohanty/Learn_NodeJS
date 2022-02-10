@@ -1,22 +1,10 @@
-const products = [];
 const fs = require("fs");
 const rtPath = require("../util/path");
 const path = require("path");
 const filePath = path.join(rtPath, "data", "products.json"); //location of you file
 const cartFilePath = path.join(rtPath, "data", "cart.json"); //location of you file
-const getProductHelperFunction = (callback) => {
-  fs.readFile(filePath, (err, fileContent) => {
-    let products = [];
-    console.log("product.js[models] -> err3 : ", err);
-    if (!err) {
-      // if no Error you can push fileContent
-      products.push(...JSON.parse(fileContent));
-    }
+const db=require('../util/database');
 
-    callback(products);
-  });
-  console.log("product.js[models] ->products : ", products);
-};
 //product class to manage data
 module.exports = class Product {
   constructor(title, price, imgUrl, description,id) {
@@ -27,33 +15,9 @@ module.exports = class Product {
     this.id=id;
   }
   save() {
-    
-    getProductHelperFunction((products) => {
-      console.log("product -save -> this",this);
-      if(!this.id){
-
-        this.id=Math.random().toString();
-  
-        products.push(this); // this = object to push
-        fs.writeFile(filePath, JSON.stringify(products), (err) => {
-          // just make you object to string
-          // and you are good to go
-          console.log("product.js -> err2 : ", err);
-        });
-      }else{
-        const productIndex=products.findIndex(item=>item.id===this.id);
-        if(productIndex){
-          const updatedProducts=[...products]
-          updatedProducts[productIndex]=this;
-          fs.writeFile(filePath, JSON.stringify(updatedProducts), (err) => {
-            // just make you object to string
-            // and you are good to go
-            console.log("product.js -> err2 : ", err);
-          });
-        }
-      }
-      
-    });
+    console.log("models -> product.js -> this -> 18 :",this);
+    return db.execute( "insert into products (title,price,description,inputURL) values(?,?,?,?);",
+    [this.title,this.price,this.description,this.imgUrl]);
   }
   static deleteCartProduct (productId,price){
     this.fetchCart(cart=>{
@@ -68,33 +32,20 @@ module.exports = class Product {
       updatedCart.totalPrice-=price*countOfRemoveProductFromCart;
 
       fs.writeFile(cartFilePath,JSON.stringify(updatedCart),err=>{
-        console.log("models ->product.js -> err -> 136 :",err);
+        console.log("models ->product.js -> err -> 34 :",err);
       })
     })
   }
   static remove(productId){
-    getProductHelperFunction(products=>{
-      const updatedProducts=products.filter(item=>item.id!==productId);
-      let priceOfRemoveProductFromCart=+products.find(item=>item.id===productId).price;
-      fs.writeFile(filePath,JSON.stringify(updatedProducts),err=>{
-        console.log("model ->product.js -> 64 :",err);
-        if (!err){
-          this.deleteCartProduct(productId,priceOfRemoveProductFromCart);
-       
-        }
-      })
-    })
+    return db.execute("delete from products where product_id=?",[productId]);
   }
 
-  static fetchProducts(callback) {
-    getProductHelperFunction(callback);
+  static fetchProducts() {
+    return db.execute('select * from products');
   }
 
-  static fetchProductById (productId,callback) {
-    getProductHelperFunction((products)=>{
-      const product=products.find(item=>item.id===productId);
-      callback(product);
-    })
+  static fetchProductById (productId) {
+    return db.execute('select * from products where product_id=?',[productId]);
   }
 
   //cart
