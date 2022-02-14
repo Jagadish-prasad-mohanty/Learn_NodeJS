@@ -23,15 +23,20 @@ exports.postAddProduct=(req,res,next)=>{
     
     const title=req.body.title;
     const price=req.body.price;
-    const imgUrl=req.body.imgUrl;
+    const imageUrl=req.body.imgUrl;
     const description=req.body.description;
-    const product=new Product(title,price,imgUrl,description);
-    product.save().then(data=>{
-        console.log("controllers/admin.js-data -> 29 : ",data);
-        res.redirect('/');
+    // const product=new Product(title,price,imgUrl,description);
+    Product.create({
+        title:title,
+        price:price,
+        imageurl:imageUrl,
+        description:description
+    }).then(res=>{
+        console.log(res);
+        // res.redirect('/');
+    }).catch(err=>{
+        console.log(err);
     })
-    .catch(err=>{console.log("controllers/admin.js-err -> 30 : ",err)});
-    
     // fs.writeFile('data.txt',JSON.stringify({title:req.body['title'],price:req.body['price']}),()=>{
 
     //     

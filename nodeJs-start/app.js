@@ -34,9 +34,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-
 
 app.use("/admin", adminRouter);
 
@@ -48,12 +47,12 @@ app.use("*", errorControllers.getErro404);
 
 // server.listen(3000);
 
-sequelize.sync().then(
-  result=>{
-    console.log(result);
+sequelize
+  .sync()
+  .then((result) => {
+    console.log("Product table Created Successfully");
     app.listen(3000);
-  }
-).catch(err=>{
-  console.log(err);
-})
-
+  })
+  .catch((err) => {
+    console.log(err);
+  });
