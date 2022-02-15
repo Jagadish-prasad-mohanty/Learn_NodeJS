@@ -1,5 +1,5 @@
-const fs=require('fs');
-const { title } = require('process');
+// const fs=require('fs');
+// const { title } = require('process');
 
 //product array
 // const products=[];
@@ -15,22 +15,8 @@ exports.getIndex=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
     //fetch all Products
-    const products=[];
-    Product.fetchProducts()
-    .then(data=>{
-        const allProducts=data[0];
-        allProducts.forEach(product=>{
-            const {title,price,product_id,description,inputURL}=product;
-            const prod={
-                price:price,
-                title:title,
-                description:description,
-                id:product_id,
-                imgUrl:inputURL
-            }
-            products.push(prod);
-        })
-
+    Product.findAll()
+    .then(products=>{
         console.log("product -> getProducts-> products",products);
         res.render('shop/index',{prods:products,title:'Shop',path:'/'});
     })
@@ -44,22 +30,8 @@ exports.getProducts=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
     //fetch all Products
-    const products=[];
-    Product.fetchProducts()
-    .then(data=>{
-        const allProducts=data[0];
-        allProducts.forEach(product=>{
-            const {title,price,product_id,description,inputURL}=product;
-            const prod={
-                price:price,
-                title:title,
-                description:description,
-                id:product_id,
-                imgUrl:inputURL
-            }
-            products.push(prod);
-        })
-
+    Product.findAll()
+    .then(products=>{
         console.log("product -> getProducts-> products",products);
         res.render('shop/product-list',{prods:products,title:'Products',path:'/products'});
     })
@@ -68,15 +40,10 @@ exports.getProducts=(req,res,next)=>{
 }
 exports.getProductDetails=(req,res,next)=>{
     const productId=req.params.productId;
-    Product.fetchProductById(productId)
-    .then(data=>{
-        console.log("contr/shop - data -> 73 : ",data[0][0]);
-        const product={
-            title:data[0][0].title,
-            price:data[0][0].price,
-            description:data[0][0].description,
-            imgUrl:data[0][0].inputURL
-        }
+    Product.findByPk(productId)
+    .then(product=>{
+        console.log("contr/shop - data -> 45 : ",product);
+        
         res.render(`shop/product-details`,{product:product,title:'Product Details',path:`/products`})
     })
     .catch(err=>console.log(err))

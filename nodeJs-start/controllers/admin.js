@@ -23,20 +23,21 @@ exports.postAddProduct=(req,res,next)=>{
     
     const title=req.body.title;
     const price=req.body.price;
-    const imageUrl=req.body.imgUrl;
+    const imageurl=req.body.imageurl;
     const description=req.body.description;
     // const product=new Product(title,price,imgUrl,description);
     Product.create({
         title:title,
         price:price,
-        imageurl:imageUrl,
+        imageurl:imageurl,
         description:description
-    }).then(res=>{
-        console.log(res);
-        // res.redirect('/');
+    }).then(result=>{
+        console.log(result);
+        res.redirect('/');
     }).catch(err=>{
         console.log(err);
     })
+    
     // fs.writeFile('data.txt',JSON.stringify({title:req.body['title'],price:req.body['price']}),()=>{
 
     //     
@@ -76,7 +77,11 @@ exports.postEditProduct=(req,res,next)=>{
 
 exports.postDeleteProduct= (req,res,next)=>{
     const productId=req.params.productId;
-    Product.remove(productId).then(()=>{
+    Product.destroy({
+        where:{
+            id:productId
+        }
+    }).then(()=>{
         res.redirect("/admin/products");
     }).catch(err=>console.log(err));
 }
@@ -88,23 +93,8 @@ exports.getProducts=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
     //fetch all Products
-    
-    const products=[];
-    Product.fetchProducts()
-    .then(data=>{
-        const allProducts=data[0];
-        allProducts.forEach(product=>{
-            const {title,price,product_id,description,inputURL}=product;
-            const prod={
-                price:price,
-                title:title,
-                description:description,
-                id:product_id,
-                imgUrl:inputURL
-            }
-            products.push(prod);
-        })
-
+    Product.findAll()
+    .then(products=>{
         console.log("product -> getProducts-> products",products);
         res.render('admin/products',{prods:products,title:'Admin Products',path:'/admin/products'});
     })
