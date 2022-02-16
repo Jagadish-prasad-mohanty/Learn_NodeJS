@@ -51,26 +51,43 @@ exports.getEditProduct=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','add-product.html'))
 
     //pug dynamic page render
-    Product.fetchProductById(productId,product=>{
-      
-        
-        res.render('admin/edit-product',{product:product,title:'Edit Product',path:'/admin/products'});
-        
-
+    Product.findByPk(productId)
+    .then(product=>{ 
+        if(!product)   {
+            return res.redirect('/admin/products');
+        }else{
+            res.render('admin/edit-product',{product:product,title:'Edit Product',path:'/admin/products'})
+        }
     })
-    
+    .catch(err=>{console.log(err);})
     // next();
+
 }
 exports.postEditProduct=(req,res,next)=>{
     const title=req.body.title;
     const price=req.body.price;
-    const imgUrl=req.body.imgUrl;
+    const imageurl=req.body.imageurl;
     const description=req.body.description;
     const productId=req.body.id;
     
-    const product=new Product(title,price,imgUrl,description,productId);
-    product.save();
-    res.redirect('/admin/products');
+    // const product=new Product(title,price,imgUrl,description,productId);
+    Product.update({
+        title:title,
+        id:productId,
+        imageurl:imageurl,
+        desccription:description,
+        price:price
+    },{
+        where:{
+            id:productId
+        }
+    })
+    .then(result=>{
+        console.log(result)
+        res.redirect('/admin/products');
+    })
+    .catch(err=>{console.log(err)});
+
     
     // next();
 }
