@@ -13,7 +13,7 @@ exports.getAddProduct=(req,res,next)=>{
 
     //pug dynamic page render
     res.render('admin/add-product',{title:'Add Product',path:'/admin/add-product'});
-    
+
     // next();
 }
 exports.postAddProduct=(req,res,next)=>{
@@ -26,12 +26,19 @@ exports.postAddProduct=(req,res,next)=>{
     const imageurl=req.body.imageurl;
     const description=req.body.description;
     // const product=new Product(title,price,imgUrl,description);
-    Product.create({
+    // Product.create({
+    //     title:title,
+    //     price:price,
+    //     imageurl:imageurl,
+    //     description:description
+    // })
+    req.user.createProduct({
         title:title,
         price:price,
         imageurl:imageurl,
         description:description
-    }).then(result=>{
+    })
+    .then(result=>{
         console.log(result);
         res.redirect('/');
     }).catch(err=>{
@@ -51,8 +58,10 @@ exports.getEditProduct=(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'views','add-product.html'))
 
     //pug dynamic page render
-    Product.findByPk(productId)
-    .then(product=>{ 
+    // Product.findByPk(productId)
+    req.user.getProducts(productId)
+    .then(products=>{ 
+        const product=products[0];
         if(!product)   {
             return res.redirect('/admin/products');
         }else{
@@ -71,22 +80,40 @@ exports.postEditProduct=(req,res,next)=>{
     const productId=req.body.id;
     
     // const product=new Product(title,price,imgUrl,description,productId);
-    Product.update({
-        title:title,
-        id:productId,
-        imageurl:imageurl,
-        desccription:description,
-        price:price
-    },{
-        where:{
-            id:productId
-        }
+    // Product.update({
+    //     title:title,
+    //     id:productId,
+    //     imageurl:imageurl,
+    //     desccription:description,
+    //     price:price
+    // },{
+    //     where:{
+    //         id:productId
+    //     }
+    // })
+    // .then(result=>{
+    //     console.log(result)
+    //     res.redirect('/admin/products');
+    // })
+    // .catch(err=>{console.log(err)});
+
+
+    Product.findByPk(productId)
+    .then(product=>{
+        product.title=title;
+        product.price=price;
+        product.description=description;
+        product.imageurl=imageurl;
+
+        return product.save();
     })
     .then(result=>{
-        console.log(result)
         res.redirect('/admin/products');
     })
-    .catch(err=>{console.log(err)});
+    .catch(err=>{
+        console.log(err);
+    })
+
 
     
     // next();
@@ -109,8 +136,8 @@ exports.getProducts=(req,res,next)=>{
     //normal send file
     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
-    //fetch all Products
-    Product.findAll()
+    //fetch all Products for the user
+    req.user.getProducts()
     .then(products=>{
         console.log("product -> getProducts-> products",products);
         res.render('admin/products',{prods:products,title:'Admin Products',path:'/admin/products'});
