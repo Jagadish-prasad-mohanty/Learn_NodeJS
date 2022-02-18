@@ -6,6 +6,8 @@
 
 //import product model class
 const Product =require('../models/product');
+const Cart =require('../models/cart');
+const CartItem =require('../models/cart-item');
 
 
 
@@ -56,25 +58,35 @@ exports.getCartProducts=(req,res,next)=>{
 
     //fetch all Products
 
-        Product.fetchCart(cart=>{  
-            const cartProducts=[];
-            Product.fetchProducts(products=>{
-                console.log("shop.js [controllers]",cart.cart);
-                cart.cart.forEach(item=>{
-                    const productIndex=products.findIndex(itm=>itm.id===item.id);
-                    if (productIndex !==-1){
+        // Product.fetchCart(cart=>{  
+        //     const cartProducts=[];
+        //     Product.fetchProducts(products=>{
+        //         console.log("shop.js [controllers]",cart.cart);
+        //         cart.cart.forEach(item=>{
+        //             const productIndex=products.findIndex(itm=>itm.id===item.id);
+        //             if (productIndex !==-1){
 
-                        cartProducts.push({
-                            ...products[productIndex],
-                            count:item.count
+        //                 cartProducts.push({
+        //                     ...products[productIndex],
+        //                     count:item.count
     
-                        });
-                    }
-                })
-                const cartTotalPrice=cart.totalPrice
-                res.render('shop/cart',{title:'Cart',cart:{cart:cartProducts,totalPrice:cartTotalPrice},path:'/cart'});
+        //                 });
+        //             }
+        //         })
+        //         const cartTotalPrice=cart.totalPrice
+        //         res.render('shop/cart',{title:'Cart',cart:{cart:cartProducts,totalPrice:cartTotalPrice},path:'/cart'});
+        //     })
+        // })
+
+            req.user.getCart()
+            .then(cart=>{
+                console.log("cart -> 83",cart);
+                // res.render('shop/cart',{title:'Cart',cart:cart,path:'/cart'});
             })
-        })
+            .catch(err=>{
+                console.log(err);
+            })
+
 
 }
 exports.postCartProducts=(req,res,next)=>{
@@ -83,6 +95,14 @@ exports.postCartProducts=(req,res,next)=>{
     console.log(" shop.js[controlers] -> productId",productId); 
     Product.productAddToCart(productId,productPrice);
     res.redirect('/cart');
+
+    Product.findByPk(productId)
+    .then(product=>{
+
+    })
+    .catch(err=>{
+        console.log(err);
+    })
 }
 exports.postDeleteCartProduct=(req,res,next)=>{
     const productId=req.params.productId;

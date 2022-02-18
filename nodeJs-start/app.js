@@ -13,6 +13,9 @@ const shopRouter = require("./routes/shop");
 //Models
 const User=require('./models/user');
 const Product=require('./models/product');
+const Cart=require('./models/cart');
+const CartItem=require('./models/cart-item');
+
 
 // const expHDBars= require('express-handlebars');
 
@@ -65,10 +68,14 @@ app.use("*", errorControllers.getErro404);
 // conneting models
 Product.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 User.hasMany(Product);
+Cart.belongsTo(User);
+User.hasOne(Cart);
+Product.belongsToMany(Cart,{through:CartItem})
+Cart.belongsToMany(Product,{through:CartItem})
 
 
 //Syncronise all the models to the app 
-sequelize
+sequelize       
   .sync()
   .then((result) => {
     
