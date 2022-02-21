@@ -79,6 +79,7 @@ sequelize
   .sync()
   .then((result) => {
     
+    console.log("Product table Created Successfully");
     return User.findByPk(1)
     
   })
@@ -89,9 +90,12 @@ sequelize
     return user
   })
   .then(user=>{
-    console.log(user);
-    console.log("Product table Created Successfully");
-    app.listen(3000);
+    console.log("User created succesfully");
+    return user.createCart()
+    .then(cart=>{
+      console.log("cart created successfully");
+      app.listen(3000);
+    })
   })
   .catch((err) => {
     console.log(err);
