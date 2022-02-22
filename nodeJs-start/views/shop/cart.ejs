@@ -12,12 +12,12 @@
                             <h3 class="card-head"><%= product.title %></h3> 
                             <p class="card-price"> /- <%= product.price %></p>
                         </div>
-                        <img class="card-image" src="<%= product.imgUrl %>" alt="card-image"/>
+                        <img class="card-image" src="<%= product.imageurl %>" alt="card-image"/>
                         <p class="card-desc"> <%= product.description %></p>
                         
 
                         <diV class="card-controls">
-                            <p>Quantity : <%= product.count%></p>
+                            <p>Quantity : <%= product["cart-item"].quantity%></p>
                             <form action="/delete-cart-product/<%= product.id %>" method="POST">
                                 <button class="button" type="submit">Delete</button>
                             </form>
