@@ -15,6 +15,8 @@ const User = require("./models/user");
 const Product = require("./models/product");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-item");
 
 // const expHDBars= require('express-handlebars');
 
@@ -71,6 +73,10 @@ User.hasOne(Cart);
 Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+User.hasMany(Order);
+Order.belongsTo(User);
+Product.belongsToMany(Order, { through: OrderItem });
+Order.belongsToMany(Product, { through: OrderItem });
 
 //Syncronise all the models to the app
 sequelize

@@ -24,12 +24,20 @@
                         </diV>
                     </div>
                     <% } %>
-
+                    
             <% } else { %>
                 <h3>No Products in Cart</h3> 
                 <%}%>
 
+
+
             </div>
+            <% if (cart.cart.length !==0) { %>
+                <hr/>
+            <form class="centered" action="/order" method="POST">
+                <button class="button" type="submit">Order Now</button>
+            </form>
+            <% } %>
         </main>
 
 <%- include('../includes/end.ejs')%>

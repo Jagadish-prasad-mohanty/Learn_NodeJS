@@ -128,7 +128,7 @@ exports.postDeleteCartProduct = (req, res, next) => {
         const product=products[0];
         return product['cart-item'].destroy();
     })
-    .then(()=>{
+    .then((result)=>{
         res.redirect("/cart");
     })
     .catch(err=>{
@@ -143,4 +143,60 @@ exports.getCheckOut = (req, res, next) => {
 
   // send file with pug
   res.render("shop/check-out", { title: "CheckOut", path: "/check-out" });
+};
+exports.getOrder = (req, res, next) => {
+    res.user.getOrders().
+    then(order=>{
+        return order.getProducts()
+    })
+    .then(products=>{
+        console.log("products -> 153",products);
+        res.render("shop/order", { title: "Order",orders:"orders", path: "/order" });
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+    // req.user.getOrder()
+    // .then(orders=>{
+    // })
+    // .catch(err=>{
+    //     console.log(err);
+    // })
+};
+exports.postOrder = (req, res, next) => {
+    let MyOrder;
+    let MyCart;
+    console.log("postOrder");
+    req.user.createOrder()
+    .then(order=>{
+        MyOrder=order;
+        return req.user.getCart()
+    })
+    .then(cart=>{
+        MyCart=cart;
+        return cart.getProducts()
+    })
+    .then(products=>{
+            console.log("products -> 168",products);
+            products.forEach(product => {
+                return MyOrder.addProduct(product)
+                .then()
+                .catch(err=>{
+                    console.log(err);
+                })
+
+            });
+        })
+        .then(result=>{
+            return MyCart.destroy();
+        })
+    
+    .then(result=>{
+        res.redirect('/order')
+    })
+    
+    
+    .catch(err=>{
+        console.log(err);
+    })
 };
