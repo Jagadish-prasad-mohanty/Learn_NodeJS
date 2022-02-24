@@ -7,7 +7,8 @@ const OrderItem=sequelize.define('order-item',{
         allowNull:false,
         autoIncrement:true,
         primaryKey:true
-  }
+  },
+  quantity:Sequelize.INTEGER
 
 })
 

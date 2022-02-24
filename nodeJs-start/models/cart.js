@@ -7,7 +7,7 @@ const Cart=sequelize.define('cart',{
         allowNull:false,
         autoIncrement:true,
         primaryKey:true
-  },
+  }
 
 })
 

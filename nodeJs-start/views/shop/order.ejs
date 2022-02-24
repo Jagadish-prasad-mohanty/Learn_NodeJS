@@ -1,11 +1,32 @@
 <%- include('../includes/start.ejs') %>
-    <link rel="stylesheet" href="/css/shop.css"/>
-<%- include('../includes/navigation.ejs')%>
-    <main class="shop">
-        <h1 class="shop-header" >Cart</h1>
-        <p> all Order in cart go here</p>
-        
-            
+    <link rel="stylesheet" href="/css/shop.css" />
+    <%- include('../includes/navigation.ejs')%>
+        <main class="shop">
+            <h1 class="shop-header">Orders</h1>
+            <p> all Products in orders go here</p>
+            <ul>
+                <% if (orders.length !==0) { %>
+                    <% for (let order of orders){ %>
+                        <h3 class="card-head">
+                            #<%= order.id %>
+                        </h3>
+                        <div class="cards">
+
+                            <% order.products.forEach(product=>{ %>
+                                <li class="card">
+                                    <div class="card-main">
+                                        <p><%= product.title%> (<%= product['order-item'].quantity %> )</p>
+                                    </div>
+                                </li>
+                            <% })%>
+                        </div>
+                    <% } %>
+
+                    <% } else { %>
+                    <h3>Please place your first Order</h3>
+                    <% } %>
+            </ul>
+
         </main>
 
-<%- include('../includes/end.ejs')%>
+        <%- include('../includes/end.ejs')%>

@@ -145,22 +145,30 @@ exports.getCheckOut = (req, res, next) => {
   res.render("shop/check-out", { title: "CheckOut", path: "/check-out" });
 };
 exports.getOrder = (req, res, next) => {
-    res.user.getOrders().
-    then(order=>{
-        return order.getProducts()
-    })
-    .then(products=>{
-        console.log("products -> 153",products);
-        res.render("shop/order", { title: "Order",orders:"orders", path: "/order" });
+  const MyProducts=[];
+    req.user.getOrders({include:['products']}).
+    then(orders=>{
+      console.log("order-> 150 : ",orders)
+      
+      res.render("shop/order", { title: "Order",orders:orders, path: "/order" });
     })
     .catch(err=>{
         console.log(err);
     })
-    // req.user.getOrder()
-    // .then(orders=>{
-    // })
-    // .catch(err=>{
+
+    //test
+    // orders.forEach(order=>{
+        
+    //   return order.getProducts()
+    //   .then(products=>{
+    //     products.forEach(product=>{
+    //       console.log("products -> 155 : ",product);
+    //        MyProducts.push(product);
+    //     })
+    //   })
+    //   .catch(err=>{
     //     console.log(err);
+    //   })
     // })
 };
 exports.postOrder = (req, res, next) => {
@@ -178,14 +186,19 @@ exports.postOrder = (req, res, next) => {
     })
     .then(products=>{
             console.log("products -> 168",products);
-            products.forEach(product => {
-                return MyOrder.addProduct(product)
-                .then()
-                .catch(err=>{
-                    console.log(err);
-                })
+            return MyOrder.addProduct(products.map(product=>{
+              product['order-item']={quantity:product['cart-item'].quantity}
 
-            });
+              return product
+            }))
+            // products.forEach(product => {
+            //     return MyOrder.addProduct(product)
+            //     .then()
+            //     .catch(err=>{
+            //         console.log(err);
+            //     })
+
+            // });
         })
         .then(result=>{
             return MyCart.destroy();
