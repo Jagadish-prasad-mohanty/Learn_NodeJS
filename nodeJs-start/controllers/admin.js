@@ -51,96 +51,96 @@ exports.postAddProduct=(req,res,next)=>{
     // })
 }
 
-exports.getEditProduct=(req,res,next)=>{
-    console.log("A Admin Edit Product middleware");
-    const {productId}=req.params;
-    //notmal page render
-    // res.sendFile(path.join(rootDir,'views','add-product.html'))
+// exports.getEditProduct=(req,res,next)=>{
+//     console.log("A Admin Edit Product middleware");
+//     const {productId}=req.params;
+//     //notmal page render
+//     // res.sendFile(path.join(rootDir,'views','add-product.html'))
 
-    //pug dynamic page render
-    // Product.findByPk(productId)
-    req.user.getProducts(productId)
-    .then(products=>{ 
-        const product=products[0];
-        if(!product)   {
-            return res.redirect('/admin/products');
-        }else{
-            res.render('admin/edit-product',{product:product,title:'Edit Product',path:'/admin/products'})
-        }
-    })
-    .catch(err=>{console.log(err);})
-    // next();
+//     //pug dynamic page render
+//     // Product.findByPk(productId)
+//     req.user.getProducts(productId)
+//     .then(products=>{ 
+//         const product=products[0];
+//         if(!product)   {
+//             return res.redirect('/admin/products');
+//         }else{
+//             res.render('admin/edit-product',{product:product,title:'Edit Product',path:'/admin/products'})
+//         }
+//     })
+//     .catch(err=>{console.log(err);})
+//     // next();
 
-}
-exports.postEditProduct=(req,res,next)=>{
-    const title=req.body.title;
-    const price=req.body.price;
-    const imageurl=req.body.imageurl;
-    const description=req.body.description;
-    const productId=req.body.id;
+// }
+// exports.postEditProduct=(req,res,next)=>{
+//     const title=req.body.title;
+//     const price=req.body.price;
+//     const imageurl=req.body.imageurl;
+//     const description=req.body.description;
+//     const productId=req.body.id;
     
-    // const product=new Product(title,price,imgUrl,description,productId);
-    // Product.update({
-    //     title:title,
-    //     id:productId,
-    //     imageurl:imageurl,
-    //     desccription:description,
-    //     price:price
-    // },{
-    //     where:{
-    //         id:productId
-    //     }
-    // })
-    // .then(result=>{
-    //     console.log(result)
-    //     res.redirect('/admin/products');
-    // })
-    // .catch(err=>{console.log(err)});
+//     // const product=new Product(title,price,imgUrl,description,productId);
+//     // Product.update({
+//     //     title:title,
+//     //     id:productId,
+//     //     imageurl:imageurl,
+//     //     desccription:description,
+//     //     price:price
+//     // },{
+//     //     where:{
+//     //         id:productId
+//     //     }
+//     // })
+//     // .then(result=>{
+//     //     console.log(result)
+//     //     res.redirect('/admin/products');
+//     // })
+//     // .catch(err=>{console.log(err)});
 
 
-    Product.findByPk(productId)
-    .then(product=>{
-        product.title=title;
-        product.price=price;
-        product.description=description;
-        product.imageurl=imageurl;
+//     Product.findByPk(productId)
+//     .then(product=>{
+//         product.title=title;
+//         product.price=price;
+//         product.description=description;
+//         product.imageurl=imageurl;
 
-        return product.save();
-    })
-    .then(result=>{
-        res.redirect('/admin/products');
-    })
-    .catch(err=>{
-        console.log(err);
-    })
+//         return product.save();
+//     })
+//     .then(result=>{
+//         res.redirect('/admin/products');
+//     })
+//     .catch(err=>{
+//         console.log(err);
+//     })
 
 
     
-    // next();
-}
+//     // next();
+// }
 
-exports.postDeleteProduct= (req,res,next)=>{
-    const productId=req.params.productId;
-    Product.destroy({
-        where:{
-            id:productId
-        }
-    }).then(()=>{
-        res.redirect("/admin/products");
-    }).catch(err=>console.log(err));
-}
+// exports.postDeleteProduct= (req,res,next)=>{
+//     const productId=req.params.productId;
+//     Product.destroy({
+//         where:{
+//             id:productId
+//         }
+//     }).then(()=>{
+//         res.redirect("/admin/products");
+//     }).catch(err=>console.log(err));
+// }
 
 
-exports.getProducts=(req,res,next)=>{
+// exports.getProducts=(req,res,next)=>{
     
-    //normal send file
-    // res.sendFile(path.join(rootDir,'views','shop.html'));
+//     //normal send file
+//     // res.sendFile(path.join(rootDir,'views','shop.html'));
 
-    //fetch all Products for the user
-    req.user.getProducts()
-    .then(products=>{
-        console.log("product -> getProducts-> products",products);
-        res.render('admin/products',{prods:products,title:'Admin Products',path:'/admin/products'});
-    })
-    .catch(err=>console.log(err));
-}
+//     //fetch all Products for the user
+//     req.user.getProducts()
+//     .then(products=>{
+//         console.log("product -> getProducts-> products",products);
+//         res.render('admin/products',{prods:products,title:'Admin Products',path:'/admin/products'});
+//     })
+//     .catch(err=>console.log(err));
+// }

@@ -41,32 +41,56 @@
 // #### Sequelize ####
 
 
-const sequelize = require("../util/database");
+// const sequelize = require("../util/database");
 
-const Sequelize= require('sequelize');
+// const Sequelize= require('sequelize');
 
-const Product =sequelize.define('product',{
-    id:{
-        type:Sequelize.INTEGER,
-        allowNull:false,
-        autoIncrement:true,
-        primaryKey:true
-    },
-    title: Sequelize.STRING,
-    price:{
-        type:Sequelize.INTEGER,
-        allowNull:false
-    },
-    imageurl:{
-        type:Sequelize.STRING,
-        allowNull:false
-    },
-    description:{
-        type:Sequelize.STRING,
-        allowNull:false
-    },
+// const Product =sequelize.define('product',{
+//     id:{
+//         type:Sequelize.INTEGER,
+//         allowNull:false,
+//         autoIncrement:true,
+//         primaryKey:true
+//     },
+//     title: Sequelize.STRING,
+//     price:{
+//         type:Sequelize.INTEGER,
+//         allowNull:false
+//     },
+//     imageurl:{
+//         type:Sequelize.STRING,
+//         allowNull:false
+//     },
+//     description:{
+//         type:Sequelize.STRING,
+//         allowNull:false
+//     },
 
+// }
+// );
+
+// module.exports=Product;
+
+
+//mongo db
+const getDb= require('../util/database').getDb;
+class Product{
+    constructor(title, price, imgUrl, description,id) {
+        this.title = title;
+        this.price = price;
+        this.imgUrl = imgUrl;
+        this.description = description;
+        this.id=id;
+    }
+
+    save(){
+        const db=getDb();
+        db.collection('products').insertOne(this).then((result)=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log(err);
+        });
+    }
 }
-);
 
 module.exports=Product;

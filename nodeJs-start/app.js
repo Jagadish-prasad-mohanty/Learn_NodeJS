@@ -7,8 +7,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 
-// const adminRouter = require("./routes/admin");
+const adminRouter = require("./routes/admin");
 // const shopRouter = require("./routes/shop");
+
+const mongoConnect=require('./util/database').mongoConnect;
 
 //Models
 // const User = require("./models/user");
@@ -54,9 +56,10 @@ app.use((req, res, next) => {
   //   .catch((err) => {
   //     console.log(err);
   //   });
+  next();
 });
 
-// app.use("/admin", adminRouter);
+app.use("/admin", adminRouter);
 
 // app.use(shopRouter);
 
@@ -112,9 +115,8 @@ app.use("*", errorControllers.getErro404);
 
 
 //mongodb
-const mongoConnect=require('./util/database');
 
-mongoConnect((client)=>{
+
+mongoConnect(()=>{
   app.listen(3000);
-  console.log(client);
 })

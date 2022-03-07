@@ -13,13 +13,13 @@ router.get('/add-product',adminControllers.getAddProduct);
 // post add product for post data( the product data )
 router.post('/add-product',adminControllers.postAddProduct);
 
-router.get('/edit-product/:productId',adminControllers.getEditProduct);
-router.post('/edit-product/:productId',adminControllers.postEditProduct);
+// router.get('/edit-product/:productId',adminControllers.getEditProduct);
+// router.post('/edit-product/:productId',adminControllers.postEditProduct);
 
-router.post('/delete-product/:productId',adminControllers.postDeleteProduct);
+// router.post('/delete-product/:productId',adminControllers.postDeleteProduct);
 
-//admin/products
-router.get('/products',adminControllers.getProducts);
+// //admin/products
+// router.get('/products',adminControllers.getProducts);
 
 // router.get(/)
 
